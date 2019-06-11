@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+displayName: PokomonPokedex
+description: Une Pokomon a capturé
+properties:
+  name: string
+  number:
+    type: integer
+    description: Le numéro dans le pokodex
+  picture:
+    type: string
+    description: Une URL avec un png qui représente le pokomon
+  captured:
+    type: boolean
+    description: Indique si j'ai un exemplaire de ce pokomon

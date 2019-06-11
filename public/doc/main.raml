@@ -1,0 +1,239 @@
+#%RAML 1.0
+title: "Pokomon"
+version: "1"
+protocols: HTTPS
+mediaType: application/json
+baseUri: https://jerome-pokomon.herokuapp.com/
+
+traits:
+  secured:
+      headers:
+        Authorization:
+          description: Ajouter au header la clé d'authentification retourné au login ou signup
+          example: Bearer 71543fa6a11044b0a9f3a8354ddcb00e
+
+types:
+  Profile: !include Profile.raml
+  Pokomon: !include Pokomon.raml
+  PokomonPokedex: !include PokomonPokedex.raml
+  Item: !include Item.raml
+  Pokostop: !include Pokostop.raml
+
+  ProfileUpdate:
+    properties:
+      email: string
+      picture: string
+      username: string
+
+  LoginData:
+    properties:
+      email: string
+      password: string
+  LoginResult:
+    properties:
+      profile: Profile
+      token: string
+
+  SignupData:
+    properties:
+      email: string
+      password: string
+      username: string
+
+  MapData:
+    properties:
+      pokomons: Pokomon[]
+      pokostops: Pokostop[]
+
+  ProfileUpdateError:
+    properties:
+      emailExist: boolean
+      usernameExist: boolean
+
+  ItemLine:
+    properties:
+      item: Item
+      amount: integer
+
+/login:
+  displayName: Login
+  post:
+    description: Connexion au service
+    body:
+      application/json: LoginData
+    responses:
+      200:
+        description: Connexion reussi
+        body:
+          application/json: LoginResult
+      404:
+        description: Email inconnu
+      403:
+        description: Mauvais mots de passe
+
+/signup:
+  displayName: Signup
+  post:
+    description: Créer un compte sur le service
+    body:
+      application/json: SignupData
+    responses:
+      200:
+        description: Compte bien créer
+        body:
+          application/json: LoginResult
+      403:
+        description: Email ou username déjà utilisée
+
+
+/map:
+  is: [secured: {}]
+  displayName: Carte
+  get:
+    description: L'ensemble des objets a proximité
+    queryParameters:
+      lat: number
+      lng: number
+    responses:
+      200:
+        description: L'ensemble des objets a proximité
+        body:
+          application/json: MapData
+
+/pokostop/{id}:
+  is: [secured: {}]
+  displayName: Interagir avec un pokostop
+  post:
+    description: Permet de prendre les Items présent sur un pokostop
+    responses:
+      200:
+        description: Vous avez rammassé des objets. Retourne la liste des objets ajoutés au sac
+        body:
+          application/json: Item[]
+      403:
+        description: Vous ne pouvez pas encrore prendre d'Item sur ce Pokostop.
+
+/pokomon/{id}:
+  is: [secured: {}]
+  displayName: Interagir avec un pokomon sur la carte
+  get:
+    description: Vérifie que le pokomon est toujours disponible. Permet d'indiqué dans le pokodex que l'on a vu ce pokomon
+    responses:
+      200:
+        description: Pokomon Capturé
+        body:
+          application/json: Pokomon
+      404:
+        description: Trop tard plus aucun pokomon ici
+  post:
+    description: Tente de capturer un pokomon. Que la capture échoue ou pas le pokomon est marqué comme vu dans le pokodex
+    responses:
+      200:
+        description: Pokomon Capturé
+        body:
+          application/json: Pokomon
+      403:
+        description: Raté
+      404:
+        description: Trop tard plus aucun pokomon ici
+
+/me:
+  is: [secured: {}]
+  displayName: Interagir avec mon profile
+  get:
+    description: Recupérer mon profile complet
+    responses:
+      200:
+        description: Mon profile
+        body:
+          application/json:
+            type: Profile
+  post:
+    description: Mettre à jour un profile
+    body:
+      application/json:
+        type: ProfileUpdate
+    responses:
+      200:
+        description: Profile mis à jours
+      403:
+        description: Email ou username déjà utilisé
+        body:
+          application/json:
+            type: ProfileUpdateError
+
+/me/bag:
+  is: [secured: {}]
+  displayName: Interagir avec mon sac à dos
+  get:
+    description: : Afficher le comptenu de mon sac
+    responses:
+      200:
+        description: Mon sac
+        body:
+          application/json:
+            type: ItemLine[]
+  post:
+    description: Supprimer un element de mon sac
+    body:
+      application/json:
+        type: ItemLine
+        description: L'element à modifier avec la nouvelle quantité. 0 pour supprimer du sac
+    responses:
+      200:
+        description: Les objects ont bien été supprimé. Retourne le contenu de tout mon sac actualisé
+        body:
+          application/json:
+            type: ItemLine[]
+
+/me/pokodex:
+  is: [secured: {}]
+  displayName: La liste des pokomons que vous avez capturé ou vu
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: PokomonPokedex[]
+
+/me/pokomon:
+  is: [secured: {}]
+  displayName: Interagir avec mes pokomons
+  get:
+    description: Lister l'ensemble de mes pokomons
+    responses:
+      200:
+        description:
+        body:
+          application/json:
+            type: Pokomon[]
+
+/me/pokomon/{id}:
+  is: [secured: {}]
+  displayName: Interagir avec un de mes pokomons
+  get:
+    description: charger les infos d'un pokomon
+    responses:
+      200:
+        body:
+          application/json:
+            type: Pokomon
+      404:
+        description: Vous ne possedez pas de pokemon avec cet id
+
+/me/pokomon/{id}/evolve:
+  is: [secured: {}]
+  displayName: Faire évoluer un pokemon
+  post:
+    responses:
+      200:
+        description: Les nouvelles informations pour ce pokomon
+        body:
+          application/json:
+            type: Pokomon
+      404:
+        description: Vous ne possedez pas de pokemon avec cet id
+      401:
+        description: Vous n'avez pas assez de bonbon
+      400:
+        description: Le pokomon n'a pas d'évolution

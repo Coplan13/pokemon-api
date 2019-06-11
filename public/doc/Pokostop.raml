@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+displayName: Pokostop
+description: Un point d'interêt
+properties:
+  _id: string
+  name: string
+  coordinates:
+    type: number[]
+    description: coordinates[0] longitude, coordinates[1] latitude
+  picture: string
+  timer:
+       type: integer
+       description: Timer durant lequel on ne peut pas récupérer des Items
+       required: false

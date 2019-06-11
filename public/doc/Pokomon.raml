@@ -1,0 +1,27 @@
+#%RAML 1.0 DataType
+displayName: Pokomon
+description: Une bête a capturé
+properties:
+  _id: string
+  name: string
+  number:
+    type: integer
+    description: Le numéro dans le pokodex
+  picture:
+    type: string
+    description: Une URL avec un png qui représente le pokomon
+  level: integer
+  attaque: integer
+  defense: integer
+  vitesse: integer
+  xp: integer
+  captured:
+    type: boolean
+    description: indique si le Pokomon est déjà capturé. Il fallait être plus rapide !
+  coordinates:
+      type: number[]
+      description: coordinates[0] longitude, coordinates[1] latitude
+  parent_number:
+    type: string
+    description: Le pokomon vers lequel il peut evoluer
+    required: false
