@@ -51,7 +51,7 @@ public class ControllerTest extends Controller {
 
 
 
-        return ok("c'est ok");
+        return ok("c'est ok (controller test)");
     }
 
 }
