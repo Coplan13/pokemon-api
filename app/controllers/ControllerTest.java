@@ -2,8 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.ProfileDAO;
-import models.Profile;
+import dao.*;
+import models.*;
 import play.api.Play;
 import play.data.DynamicForm;
 import play.data.Form;
