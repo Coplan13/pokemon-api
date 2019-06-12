@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+
 public class ProfileDAO extends ModelDAO<Profile, String>  {
 
 private MongoCollection profile;
@@ -15,8 +16,15 @@ public ProfileDAO(PlayJongo jongo) {
         profile = jongo.getCollection("profile");
         }
 
+
+public Profile findByEmail(String email) {
+
+        return (profile.findOne(" { email :"+email+" } ").as(Profile.class));
+}
+
 @Override
 public Profile findById(String id) {
+
         return profile.findOne(new ObjectId(id)).as(Profile.class);
         }
 
