@@ -17,6 +17,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 
+import play.mvc.Results;
 import scala.util.parsing.json.JSON;
 import scala.util.parsing.json.JSONObject;
 import token.TokenManager;
@@ -28,18 +29,22 @@ import java.awt.*;
 
 public class ControllerTest extends Controller {
 
-    private final ProfileDAO profileDAO;
+    @Inject
+    private ProfileDAO profileDAO;
 
     @Inject
-    public ControllerTest(PlayJongo playJongo) {
-        this.profileDAO = new ProfileDAO(playJongo);
-    }
+    private TokenManager tokenManager;
+
 
     public Result map(Http.Request request)
     {
-       String tok =  request.getHeaders().get("Beamer").toString();
 
-        return ok(tok);
+        return tokenManager.getUser(request).map(user -> {
+
+
+            return ok(user.email);
+
+        }).orElseGet(Results::unauthorized);
     }
 
 
@@ -55,7 +60,7 @@ public class ControllerTest extends Controller {
         {
             TokenManager tokenManager = new TokenManager();
 
-            String token = tokenManager.generateToken(email);
+            String token = tokenManager.generateToken(profile._id);
 
             ObjectNode profil = Json.newObject();
             profil.put("_id",profile._id);
@@ -76,36 +81,10 @@ public class ControllerTest extends Controller {
         }
         else
         {
-            return notFound("Not found, l'email n'existe pas");
+            return notFound();
         }
 
-      //  DynamicForm requestData = Form.form().bindFromRequest();
-      //  String email = requestData.get("email");
 
-
-
-      //  System.out.println("BODY:::"+json.toString());
-
-        /*
-        if( profileDAO.findByEmail("bouh2") == null)
-        {
-            return notFound("Pas d'email");
-        }
-*/
-
-
-
-    }
-
-    public Result test() {
-
-        Profile profile = new Profile();
-        profile.email = "heissler.jerome";
-        profile.password = "blabla";
-        profile.login = "zite";
-        profileDAO.insert(profile);
-
-        return ok("c'est ok");
     }
 
 }
