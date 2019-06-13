@@ -5,10 +5,13 @@ import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import javax.inject.Inject;
+
 public class PokedexDAO extends ModelDAO<Pokedex, String>  {
 
     private MongoCollection pokedex;
 
+    @Inject
     public PokedexDAO(PlayJongo jongo) {
         super(jongo);
 

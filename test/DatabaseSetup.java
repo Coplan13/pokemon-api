@@ -15,12 +15,12 @@ public class DatabaseSetup {
 
 
     public String createUser(String username, String email, String password){
-        Profile newUser = new Profile( username , email, password);
-
         return createUser(username, email, password, 0);
     }
     public String createUser(String username, String email, String password, int candy){
-        return "";
+        Profile newUser = new Profile( username , email, password, "");
+        jongo.getCollection("profile").insert(newUser);
+        return newUser._id;
     }
 
     public String createItem(String pokoball) {

@@ -5,10 +5,15 @@ import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PokemonDAO extends ModelDAO<Pokemon, String>  {
 
     private MongoCollection pokemon;
 
+    @Inject
     public PokemonDAO(PlayJongo jongo) {
         super(jongo);
 
@@ -19,6 +24,20 @@ public class PokemonDAO extends ModelDAO<Pokemon, String>  {
     public Pokemon findById(String id) {
         return pokemon.findOne(new ObjectId(id)).as(Pokemon.class);
     }
+
+    public ArrayList<Pokemon> allPokemon(){
+
+        ArrayList<Pokemon> pokemonList = new ArrayList<>();
+
+        for(Integer i = 0; i > pokemon.count(); i++){
+
+          //  Pokemon pok = pokemon
+        }
+
+        return pokemonList;
+    }
+
+
 
     @Override
     public void insert(Pokemon model) {
