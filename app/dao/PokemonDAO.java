@@ -6,6 +6,7 @@ import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class PokemonDAO extends ModelDAO<Pokemon, String>  {
 
     private MongoCollection pokemon;
 
+    @Inject
     public PokemonDAO(PlayJongo jongo) {
         super(jongo);
 

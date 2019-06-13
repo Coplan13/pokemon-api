@@ -4,14 +4,13 @@
 
 GET     /                           controllers.Assets.at(file="doc/main.html")
 
-GET    /test    controllers.ControllerTest.test
+POST    /login                      controllers.AuthentificationController.login(request : Request)
+POST    /signup                     controllers.AuthentificationController.signup(request : Request)
 
-POST    /login      controllers.ControllerTest.login(request : Request)
 
+GET     /map                        controllers.MapController.map(request : Request)
 
-GET    /me/pokomon controllers.PokemonController.allPokemon()
-
-GET /map controllers.ControllerTest.map(request : Request)
+GET     /me/pokomon                  controllers.PokemonController.allPokemon()
 
 # prefix must match `play.assets.urlPrefix`
 GET     /assets/*file               controllers.Assets.at(file)
