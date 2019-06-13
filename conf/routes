@@ -8,6 +8,7 @@ GET    /test    controllers.ControllerTest.test
 
 POST    /login      controllers.ControllerTest.login(request : Request)
 
+
 GET    /me/pokomon controllers.PokemonController.allPokemon()
 
 GET /map controllers.ControllerTest.map(request : Request)
