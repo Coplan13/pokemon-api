@@ -20,7 +20,7 @@ public class PokemonController extends Controller {
     }
 
 
-    public Result allPokemon() {
+    public Result allPokemon() throws Exception {
 
 
         return ok("collection pokemon");
