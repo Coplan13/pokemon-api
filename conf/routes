@@ -8,6 +8,8 @@ GET    /test    controllers.ControllerTest.test
 
 POST    /login      controllers.ControllerTest.login(request : Request)
 
+GET    /me/pokomon controllers.PokemonController.allPokemon()
+
 # prefix must match `play.assets.urlPrefix`
 GET     /assets/*file               controllers.Assets.at(file)
 GET     /versionedAssets/*file      controllers.Assets.versioned(file)

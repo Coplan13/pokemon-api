@@ -6,12 +6,12 @@ import uk.co.panaxiom.playjongo.PlayJongo;
 
 import javax.inject.Inject;
 
-public class ProfilController extends Controller {
+public class ProfileController extends Controller {
 
     private final ProfileDAO profileDAO;
 
     @Inject
-    public ProfilController(PlayJongo playJongo) {
+    public ProfileController(PlayJongo playJongo) {
         this.profileDAO = new ProfileDAO(playJongo);
     }
 }

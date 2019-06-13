@@ -5,7 +5,12 @@ import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+
+
 public class PokemonDAO extends ModelDAO<Pokemon, String>  {
+
+
+
 
     private MongoCollection pokemon;
 
@@ -18,6 +23,10 @@ public class PokemonDAO extends ModelDAO<Pokemon, String>  {
     @Override
     public Pokemon findById(String id) {
         return pokemon.findOne(new ObjectId(id)).as(Pokemon.class);
+    }
+
+    public Long findAll(){
+        return pokemon.count();
     }
 
     @Override
