@@ -1,5 +1,6 @@
 package controllers;
 
+import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.*;
@@ -10,6 +11,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import token.TokenManager;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 
@@ -33,10 +35,14 @@ public class ControllerTest extends Controller {
         String email = json.findPath("email").toString();
 
 
-       Profile profile = this.profileDAO.findByEmail(email);
+        Profile profile = this.profileDAO.findByEmail(email);
         if( profile != null)
         {
-            return ok("L'email existe bien."+json.findPath("email"));
+            TokenManager tokenManager = new TokenManager();
+
+            String token = tokenManager.generateToken(email);
+
+            return ok("Le token : "+token);
         }
         else
         {
