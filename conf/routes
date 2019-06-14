@@ -12,6 +12,10 @@ GET     /map                        controllers.MapController.map(request : Requ
 
 GET     /me/pokomon                  controllers.PokemonController.allPokemon()
 
+POST     /me                         controllers.ProfileController.profil(request : Request)
+GET     /me                         controllers.ProfileController.getProfil(request : Request)
+
+
 # prefix must match `play.assets.urlPrefix`
 GET     /assets/*file               controllers.Assets.at(file)
 GET     /versionedAssets/*file      controllers.Assets.versioned(file)

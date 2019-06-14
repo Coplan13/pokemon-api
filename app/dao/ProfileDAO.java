@@ -25,7 +25,7 @@ public class ProfileDAO extends ModelDAO<Profile, String>  {
     }
 
     public Profile findByUsername(String username) {
-        return (profile.findOne(" { username : #} ", username).as(Profile.class));
+        return (profile.findOne(" { login : # } ", username).as(Profile.class));
     }
 
     @Override

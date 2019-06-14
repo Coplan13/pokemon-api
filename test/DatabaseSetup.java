@@ -24,11 +24,14 @@ public class DatabaseSetup {
     }
 
     public String createItem(String pokoball) {
-        return "";
+        Item newItem = new Item(pokoball);
+        jongo.getCollection("item").insert(newItem);
+
+        return newItem._id;
     }
 
     public void associateUserAndItem(String userId, String itemId) {
-        
+        Po
     }
 
     public String createStop(String name, double[] coordinates) {

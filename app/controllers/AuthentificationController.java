@@ -32,10 +32,41 @@ public class AuthentificationController extends Controller {
 
         Profile profile = this.profileDAO.findByEmail(email);
         System.out.println(profile);
+
+
+
+
+
+
+
+        if(profile ==null)
+        {
+            if (!json.findPath("email").asText().equals("") && this.profileDAO.findByEmail(email) == null )
+            {
+                return notFound();
+            }
+            if(json.findPath("password").asText().equals("")|| json.findPath("email").asText().equals("")){
+                return badRequest();
+            }
+
+
+        }
+
+
+
+
         if( profile != null)
         {
-            String token = tokenManager.generateToken(profile._id);
+            if(profile.email.equals("")){
+                return notFound();
+            }
+            if(!profile.password.equals(json.findPath("password").asText())){
+                System.out.println(profile.password + json.findPath("password").asText());
+                return forbidden();
+        }
 
+
+            String token = tokenManager.generateToken(profile._id);
             ObjectNode profil = Json.newObject();
             profil.put("_id",profile._id);
             profil.put("username",profile.login);
@@ -55,6 +86,8 @@ public class AuthentificationController extends Controller {
         }
         else
         {
+
+
             return notFound();
         }
 
@@ -68,14 +101,17 @@ public class AuthentificationController extends Controller {
         String username = json.findPath("username").asText();
         String password = json.findPath("password").asText();
 
+        if(!json.has("email") || !json.has("username") || !json.has("password")) {
+            return badRequest();
+        }
 
         Profile profile = this.profileDAO.findByEmail(email);
         if( profile != null)
         {
             return forbidden();
         }
-        profile = profileDAO.findByUsername(username);
-        if( profile != null)
+       Profile profile2 = profileDAO.findByUsername(username);
+        if( profile2 != null)
         {
             return forbidden();
         }
