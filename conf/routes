@@ -10,7 +10,7 @@ POST    /signup                     controllers.AuthentificationController.signu
 
 GET     /map                        controllers.MapController.map(request : Request)
 
-GET     /me/pokomon                 controllers.PokemonController.allPokemon()
+GET     /me/pokomon                 controllers.PokemonController.allPokemon(request : Request, id)
 
 POST    /pokostop/:id               controllers.PokestopController.takeItemAtPokostopWithoutAuthentication(request : Request, id)
 

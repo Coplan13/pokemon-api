@@ -20,7 +20,7 @@ public class Pokemon {
     public String pokedex_id;
     public String profile_id;
 
-    public Pokemon() {
+    public Pokemon(String name, int number) {
 
     }
 

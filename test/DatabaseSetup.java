@@ -33,19 +33,21 @@ public class DatabaseSetup {
     }
 
     public String createStop(String name, double[] coordinates) {
-        Pokestop newPokestop = new Pokestop(name,null, null, coordinates, null);
+        Pokestop newPokestop = new Pokestop(name,"", 0.0, coordinates, "");
         jongo.getCollection("pokestop").insert(newPokestop);
         return newPokestop._id;
     }
 
     public String createPokomon(String name, int number) {
-
-        return createPokomon(name, number);
+        Pokemon newPokemon = new Pokemon(name, number);
+        jongo.getCollection("pokemon").insert(newPokemon);
+        return newPokemon._id;
     }
 
     public String createPokomon(String name, int number, int candyRequired, int pokomonNumber) {
-        Pokemon newPokemon = new Pokemon();
-        return "";
+        Pokemon newPokemon = new Pokemon(name, number);
+        jongo.getCollection("pokemon").insert(newPokemon);
+        return newPokemon._id ;
     }
 
     public int getPokomonNumber(String id) {
