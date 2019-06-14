@@ -1,5 +1,4 @@
 import models.*;
-import org.bson.types.ObjectId;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 /**
@@ -26,23 +25,26 @@ public class DatabaseSetup {
     public String createItem(String pokoball) {
         Item newItem = new Item(pokoball);
         jongo.getCollection("item").insert(newItem);
-
         return newItem._id;
     }
 
     public void associateUserAndItem(String userId, String itemId) {
-        Po
+        
     }
 
     public String createStop(String name, double[] coordinates) {
-        return "";
+        Pokestop newPokestop = new Pokestop(name,null, null, coordinates, null);
+        jongo.getCollection("pokestop").insert(newPokestop);
+        return newPokestop._id;
     }
 
     public String createPokomon(String name, int number) {
-        return "";
+
+        return createPokomon(name, number);
     }
 
     public String createPokomon(String name, int number, int candyRequired, int pokomonNumber) {
+        Pokemon newPokemon = new Pokemon();
         return "";
     }
 
